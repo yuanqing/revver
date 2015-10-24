@@ -76,9 +76,8 @@ Revver.prototype = {
       cb(null, file);
     });
   },
-  getHashes: function(opts) {
-    opts = opts || {};
-    var prefix = opts.prefix || '';
+  getHashes: function(prefix) {
+    prefix = prefix || '';
     return reduce(this._manifest, function(acc, revvedPath, originalPath) {
       if (originalPath.indexOf(prefix) === 0) {
         var key = stripExtension(originalPath.substring(prefix.length));

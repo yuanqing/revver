@@ -29,11 +29,11 @@ test('gets revved hashes with original paths starting with a `prefix`', function
       'css/baz.css': 'css/baz-73feffa4b7.css',
     }
   });
-  t.looseEqual(revver.getHashes({ prefix: 'js/' }), {
+  t.looseEqual(revver.getHashes('js/'), {
     'views/foo': 'acbd18db4c',
     'views/bar': '37b51d194a'
   });
-  t.looseEqual(revver.getHashes({ prefix: 'css/' }), {
+  t.looseEqual(revver.getHashes('css/'), {
     'baz': '73feffa4b7',
   });
 });
