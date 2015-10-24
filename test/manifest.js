@@ -7,7 +7,7 @@ var concat = require('concat-stream');
 
 var Revver = require('../');
 
-test('drops all files in the stream, before pushing a manifest file into the stream', function(t) {
+test('discards all files in the stream, before pushing a manifest file into the stream', function(t) {
   t.plan(3);
   var revver = new Revver();
   var stream = revver.rev();
