@@ -22,7 +22,7 @@ test('revs file paths', function(t) {
 
 test('can be called without `new`', function(t) {
   t.plan(1);
-  var revver = Revver();
+  var revver = Revver(); // eslint-disable-line new-cap
   var stream = revver.rev();
   stream.on('data', function(file) {
     t.equal(file.path, 'bundle-d41d8cd98f.js');
