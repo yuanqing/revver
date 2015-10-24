@@ -38,7 +38,7 @@ var Revver = require('revver');
 
 ### var revver = new Revver([opts]);
 
-Initialise a `revver`. Note that `opts` is an object literal that takes the following keys:
+Initialise a `revver`. `opts` is an object literal that takes the following keys:
 - `manifest` &mdash; An object literal that maps the original file paths to the revved file paths. Defaults to `{}`.
 - `interpolateRegex` &mdash; The regular expression used by the `interpolate` method. Defaults to `/{{\s*([^}]+?)\s*}}/g`.
 - `interpolateCallback` &mdash; A callback for modifying the interpolated value in the `interpolate` method. Defaults to the identity function.
@@ -53,11 +53,11 @@ Returns a through stream. Discards all files piped into the stream, before pushi
 
 `opts` is an object literal that takes the following keys:
 - `filename` &mdash; The name of the manifest file. Defaults to `manifest.json`.
-- `clean` &mdash; Set to `false` to pass all files down the stream (rather than discarding them). Defaults to `true`.
+- `clean` &mdash; Set to `false` to pass all files through the stream (rather than dropping them). Defaults to `true`.
 
 ### revver.interpolate()
 
-Returns a through stream. Interpolate revved paths in the manifest into the `file.contents` of each file in the stream. Modify the behavior of this method via `opts.interpolateRegex` and `opts.interpolateCallback` ([specified in the constructor](#var-revver--new-revveropts)).
+Returns a through stream. Interpolate revved paths into the `file.contents` of each file piped into the stream. Modify the behavior of this method via `opts.interpolateRegex` and `opts.interpolateCallback` ([specified in the constructor](#var-revver--new-revveropts)).
 
 ### revver.getHashes([prefix])
 
