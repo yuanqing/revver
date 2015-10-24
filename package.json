@@ -1,0 +1,42 @@
+{
+  "name": "revver",
+  "version": "0.0.0",
+  "description": "Asset versioning by appending a content hash to the filename. Similar to `gulp-rev`, but with an in-memory manifest.",
+  "author": "Lim Yuan Qing",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yuanqing/revver.git"
+  },
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "lodash.reduce": "^3.1.2",
+    "object-assign": "^4.0.1",
+    "rev-hash": "^1.0.0",
+    "rev-path": "^1.0.0",
+    "strip-extension": "^1.1.0",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "concat-stream": "^1.5.1",
+    "eslint": "^1.7.3",
+    "istanbul": "^0.4.0",
+    "tape": "^4.2.2"
+  },
+  "scripts": {
+    "build": "npm run lint && npm run test",
+    "test": "rm -rf coverage && istanbul cover -- tape test/*.js",
+    "lint": "eslint index.js test/*.js"
+  },
+  "keywords": [
+    "asset",
+    "cache",
+    "file",
+    "gulpplugin",
+    "hash",
+    "rev",
+    "revving",
+    "version",
+    "versioning"
+  ]
+}
