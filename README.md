@@ -1,6 +1,6 @@
 # revver [![npm Version](http://img.shields.io/npm/v/revver.svg?style=flat)](https://www.npmjs.org/package/revver) [![Build Status](https://img.shields.io/travis/yuanqing/revver.svg?branch=master&style=flat)](https://travis-ci.org/yuanqing/revver) [![Coverage Status](https://img.shields.io/coveralls/yuanqing/revver.svg?style=flat)](https://coveralls.io/r/yuanqing/revver)
 
-> Asset versioning for [Gulp](https://github.com/gulpjs/gulp) by [appending a content hash to the filename](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/). Similar to [`gulp-rev`](https://github.com/sindresorhus/gulp-rev).
+> Asset versioning for [Gulp](https://github.com/gulpjs/gulp) by [appending a content hash to filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/). Similar to [`gulp-rev`](https://github.com/sindresorhus/gulp-rev).
 
 - In-memory manifest that persists across Gulp tasks, with support for writing the manifest to disk if needed.
 - Built-in support for interpolating revved paths into file contents. Specify a custom interpolate regex, or specify a callback if you need to modify the revved path (eg. to add a prefix).

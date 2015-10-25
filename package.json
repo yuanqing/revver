@@ -1,7 +1,7 @@
 {
   "name": "revver",
   "version": "0.0.1",
-  "description": "Asset versioning by appending a content hash to the filename. Similar to `gulp-rev`.",
+  "description": "Asset versioning for Gulp by appending a content hash to filenames. Similar to `gulp-rev`.",
   "author": "Lim Yuan Qing",
   "license": "MIT",
   "repository": {
