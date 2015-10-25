@@ -13,11 +13,11 @@ test('gets all revved hashes', function(t) {
       'css/baz.css': 'css/baz-73feffa4b7.css',
     }
   });
-  t.looseEqual(revver.getHashes(), {
-    'js/views/foo': 'acbd18db4c',
-    'js/views/bar': '37b51d194a',
+  t.looseEqual(JSON.stringify(revver.getHashes()), JSON.stringify({
     'css/baz': '73feffa4b7',
-  });
+    'js/views/bar': '37b51d194a',
+    'js/views/foo': 'acbd18db4c'
+  }));
 });
 
 test('gets revved hashes with original paths starting with a `prefix`', function(t) {
@@ -29,11 +29,11 @@ test('gets revved hashes with original paths starting with a `prefix`', function
       'css/baz.css': 'css/baz-73feffa4b7.css',
     }
   });
-  t.looseEqual(revver.getHashes('js/'), {
-    'views/foo': 'acbd18db4c',
-    'views/bar': '37b51d194a'
-  });
-  t.looseEqual(revver.getHashes('css/'), {
+  t.looseEqual(JSON.stringify(revver.getHashes('js/')), JSON.stringify({
+    'views/bar': '37b51d194a',
+    'views/foo': 'acbd18db4c'
+  }));
+  t.looseEqual(JSON.stringify(revver.getHashes('css/')), JSON.stringify({
     'baz': '73feffa4b7',
-  });
+  }));
 });

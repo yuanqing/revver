@@ -6,6 +6,7 @@ var reduce = require('lodash.reduce');
 var revHash = require('rev-hash');
 var revPath = require('rev-path');
 var through = require('through2');
+var sortKeys = require('sort-keys');
 var objectAssign = require('object-assign');
 var stripExtension = require('strip-extension');
 
@@ -52,7 +53,7 @@ Revver.prototype = {
     }, function(cb) {
       this.push(new gutil.File({
         path: path.resolve(process.cwd(), (opts.filename || DEFAULT_FILENAME)),
-        contents: new Buffer(JSON.stringify(self._manifest))
+        contents: new Buffer(JSON.stringify(sortKeys(self._manifest)))
       }));
       cb();
     });
@@ -78,7 +79,7 @@ Revver.prototype = {
   },
   getHashes: function(prefix) {
     prefix = prefix || '';
-    return reduce(this._manifest, function(acc, revvedPath, originalPath) {
+    return sortKeys(reduce(this._manifest, function(acc, revvedPath, originalPath) {
       if (originalPath.indexOf(prefix) === 0) {
         var key = stripExtension(originalPath.substring(prefix.length));
         var basename = stripExtension(path.basename(originalPath));
@@ -86,7 +87,7 @@ Revver.prototype = {
         acc[key] = value;
       }
       return acc;
-    }, {});
+    }, {}));
   }
 };
 
