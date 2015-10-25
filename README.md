@@ -1,9 +1,9 @@
 # revver [![npm Version](http://img.shields.io/npm/v/revver.svg?style=flat)](https://www.npmjs.org/package/revver) [![Build Status](https://img.shields.io/travis/yuanqing/revver.svg?branch=master&style=flat)](https://travis-ci.org/yuanqing/revver) [![Coverage Status](https://img.shields.io/coveralls/yuanqing/revver.svg?style=flat)](https://coveralls.io/r/yuanqing/revver)
 
-> Asset versioning by appending a content hash to the filename. Similar to [`gulp-rev`](https://github.com/sindresorhus/gulp-rev).
+> Asset versioning for [Gulp](https://github.com/gulpjs/gulp) by [appending a content hash to the filename](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/). Similar to [`gulp-rev`](https://github.com/sindresorhus/gulp-rev).
 
-- In-memory manifest that persists across Gulp tasks.
-- Interpolate revved paths via `revver.interpolate()`, and specify a callback if you want to modify the revved path (eg. add a prefix).
+- In-memory manifest that persists across Gulp tasks, with support for writing the manifest to disk if needed.
+- Built-in support for interpolating revved paths into file contents. Specify a custom interpolate regex, or specify a callback if you need to modify the revved path (eg. to add a prefix).
 
 ## Example
 
@@ -38,10 +38,10 @@ var Revver = require('revver');
 
 ### var revver = new Revver([opts]);
 
-Initialise a `revver`. `opts` is an object literal that takes the following keys:
+Initialise the `revver`. `opts` takes the following keys:
 - `manifest` &mdash; An object literal that maps the original file paths to the revved file paths. Defaults to `{}`.
 - `interpolateRegex` &mdash; The regular expression used by the `interpolate` method. Defaults to `/{{\s*([^}]+?)\s*}}/g`.
-- `interpolateCallback` &mdash; A callback for modifying the interpolated value in the `interpolate` method. Defaults to the identity function.
+- `interpolateCallback` &mdash; A callback with the signature `(revvedPath)` for modifying the interpolated value in the `interpolate` method. Defaults to the identity function.
 
 ### revver.rev()
 
@@ -49,20 +49,18 @@ Returns a through stream. Computes a hash of each file&rsquo;s `contents` and ap
 
 ### revver.manifest([opts])
 
-Returns a through stream. Discards all files piped into the stream, before pushing the manifest JSON file into the stream.
-
-`opts` is an object literal that takes the following keys:
+Returns a through stream. Discards all files piped into the stream, before pushing the manifest JSON file into the stream. `opts` takes the following keys:
 - `filename` &mdash; The name of the manifest file. Defaults to `manifest.json`.
 - `clean` &mdash; Set to `false` to pass all files through the stream (rather than dropping them). Defaults to `true`.
 
-### revver.interpolate()
+### revver.interpolate([opts])
 
-Returns a through stream. Interpolate revved paths into the `file.contents` of each file piped into the stream. Modify the behavior of this method via `opts.interpolateRegex` and `opts.interpolateCallback` ([specified in the constructor](#var-revver--new-revveropts)).
+Returns a through stream. Interpolate revved paths into the `file.contents` of each file piped into the stream. Pass in `opts.interpolateRegex` and `opts.interpolateCallback` to override what had been passed in to the constructor.
 
-### revver.getHashes([prefix])
+### revver.getHashes([opts])
 
-Returns a mapping of the original file paths (but without the file extensions) to their hashes. If a `prefix` is specified:
-- Only original file paths with the `prefix` will be included in the result.
+Returns an object literal that maps the original file paths (without the file extensions) to their hashes. If `opts.prefix` is specified:
+- Only original file paths that have the `prefix` will be included in the returned result.
 - The prefix will be trimmed off the original file paths in the result.
 
 Read the [test](test/get-hashes.js).
