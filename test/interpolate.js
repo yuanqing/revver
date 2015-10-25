@@ -46,7 +46,7 @@ test('throws if revved path not found', function(t) {
   stream.push(null);
 });
 
-test('modify the interpolated value using an `interpolateCallback`', function(t) {
+test('modify the interpolated value with an `interpolateCallback` specified in the constructor', function(t) {
   t.plan(3);
   var revver = new Revver({
     manifest: {
@@ -72,13 +72,43 @@ test('modify the interpolated value using an `interpolateCallback`', function(t)
   stream.push(null);
 });
 
-test('with a custom `interpolateRegex`', function(t) {
+test('`interpolateCallback` specified on the call to `interpolate` takes precedence', function(t) {
   t.plan(3);
   var revver = new Revver({
-    interpolateRegex: /{{\s*asset\s*([^}]+?)\s*}}/g,
     manifest: {
       'bundle.js': 'bundle-d41d8cd98f.js'
+    },
+    interpolateCallback: function(revvedPath) {
+      return 'foo/' + revvedPath;
     }
+  });
+  var stream = new ReadableStream({
+    objectMode: true
+  });
+  stream.pipe(revver.interpolate({
+    interpolateCallback: function(revvedPath) {
+      return 'bar/' + revvedPath;
+    }
+  })).pipe(concat(function(files) {
+    t.equal(files.length, 1);
+    t.equal(files[0].path, 'index.html');
+    t.looseEqual(files[0].contents.toString(),
+      '<script src="bar/bundle-d41d8cd98f.js"></script>');
+  }));
+  stream.push(new gutil.File({
+    path: 'index.html',
+    contents: new Buffer('<script src="{{ bundle.js }}"></script>')
+  }));
+  stream.push(null);
+});
+
+test('interpolate using a custom `interpolateRegex` specified in the constructor', function(t) {
+  t.plan(3);
+  var revver = new Revver({
+    manifest: {
+      'bundle.js': 'bundle-d41d8cd98f.js'
+    },
+    interpolateRegex: /{{\s*asset\s*([^}]+?)\s*}}/g
   });
   var stream = new ReadableStream({
     objectMode: true
@@ -92,6 +122,32 @@ test('with a custom `interpolateRegex`', function(t) {
   stream.push(new gutil.File({
     path: 'index.html',
     contents: new Buffer('<script src="{{ asset bundle.js }}"></script>')
+  }));
+  stream.push(null);
+});
+
+test('`interpolateRegex` specified on the call to `interpolate` takes precedence', function(t) {
+  t.plan(3);
+  var revver = new Revver({
+    manifest: {
+      'bundle.js': 'bundle-d41d8cd98f.js'
+    },
+    interpolateRegex: /{{\s*asset\s*([^}]+?)\s*}}/g
+  });
+  var stream = new ReadableStream({
+    objectMode: true
+  });
+  stream.pipe(revver.interpolate({
+    interpolateRegex: /{{\s*js\s*([^}]+?)\s*}}/g
+  })).pipe(concat(function(files) {
+    t.equal(files.length, 1);
+    t.equal(files[0].path, 'index.html');
+    t.looseEqual(files[0].contents.toString(),
+      '<script src="bundle-d41d8cd98f.js"></script>');
+  }));
+  stream.push(new gutil.File({
+    path: 'index.html',
+    contents: new Buffer('<script src="{{ js bundle.js }}"></script>')
   }));
   stream.push(null);
 });

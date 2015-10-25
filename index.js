@@ -58,17 +58,18 @@ Revver.prototype = {
       cb();
     });
   },
-  interpolate: function() {
+  interpolate: function(opts) {
+    opts = opts || {};
     var self = this;
     return through.obj(function(file, encoding, cb) {
       var contents;
       try {
-        contents = file.contents.toString().replace(self.interpolateRegex, function(match, originalPath) {
+        contents = file.contents.toString().replace(opts.interpolateRegex || self.interpolateRegex, function(match, originalPath) {
           var revvedPath = self._manifest[originalPath];
           if (!revvedPath) {
             throw new gutil.PluginError(PLUGIN_NAME, 'Revved path not found: ' + originalPath);
           }
-          return self.interpolateCallback(revvedPath);
+          return (opts.interpolateCallback || self.interpolateCallback)(revvedPath);
         });
       } catch (err) {
         return cb(err);
