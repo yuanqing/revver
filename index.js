@@ -78,8 +78,9 @@ Revver.prototype = {
       cb(null, file);
     });
   },
-  getHashes: function(prefix) {
-    prefix = prefix || '';
+  getHashes: function(opts) {
+    opts = opts || {};
+    var prefix = opts.prefix || '';
     return sortKeys(reduce(this._manifest, function(acc, revvedPath, originalPath) {
       if (originalPath.indexOf(prefix) === 0) {
         var key = stripExtension(originalPath.substring(prefix.length));
