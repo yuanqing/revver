@@ -51,19 +51,17 @@ Returns a through stream. Computes a hash of each file&rsquo;s `contents` and ap
 
 Returns a through stream. Discards all files piped into the stream, before pushing the manifest JSON file into the stream. `opts` takes the following keys:
 - `filename` &mdash; The name of the manifest file. Defaults to `manifest.json`.
-- `clean` &mdash; Set to `false` to pass all files through the stream (rather than dropping them). Defaults to `true`.
+- `clean` &mdash; Set to `false` to pass all files through the stream rather than dropping them. Defaults to `true`.
 
 ### revver.interpolate([opts])
 
-Returns a through stream. Interpolate revved paths into the `file.contents` of each file piped into the stream. Pass in `opts.interpolateRegex` and `opts.interpolateCallback` to override what had been passed in to the constructor.
+Returns a through stream. Interpolate revved paths into the `file.contents` of files piped into the stream. Pass in `opts.interpolateRegex` or `opts.interpolateCallback` to override what had been set in the constructor.
 
 ### revver.getHashes([opts])
 
 Returns an object literal that maps the original file paths (without the file extensions) to their hashes. If `opts.prefix` is specified:
-- Only original file paths that have the `prefix` will be included in the returned result.
+- Only original file paths starting with the prefix will be included in the returned result.
 - The prefix will be trimmed off the original file paths in the result.
-
-Read the [test](test/get-hashes.js).
 
 ## Installation
 
